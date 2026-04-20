@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="grid">
+
+    <div class="col-12">
+      <h1>Pessoas</h1>
+    </div>
+
+    <div class="col-12 p-fluid">
+      <label for="descricao" style="font-weight: bold;">Nome</label>
+      <input pInputText type="text">
+    </div>
+
+    <div class="col-12">
+      <button pButton type="submit" label="Pesquisar"></button>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="col-12">
+      <app-pessoas-grid [pessoas]="pessoas"></app-pessoas-grid>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <button pButton type="submit" label="Nova Pessoa"></button>
+  </div>
+</div>

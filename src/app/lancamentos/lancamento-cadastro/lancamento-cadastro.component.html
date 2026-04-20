@@ -1,0 +1,62 @@
+<div class="container">
+  <form autocomplete="off">
+
+    <div class="grid">
+      <div class="col-12">
+        <h1>Novo Lançamento</h1>
+      </div>
+
+      <div class="col-12">
+        <p-selectButton [options]="tipos" #tipoAtual></p-selectButton>
+      </div>
+
+      <div class="col-6 md:col-3 p-fluid">
+        <label>Vencimento</label>
+        <p-calendar dateFormat="dd/mm/yy" [inline]="false" [readonlyInput]="false" [showIcon]="true" [required]="true" name="vencimento" ngModel #vencimento="ngModel"></p-calendar>
+
+        <app-message [control]="vencimento.control" error="required" text="Informe uma data de vencimento"></app-message>
+      </div>
+
+      <div class="col-6 md:col-3 p-fluid">
+        <label>{{ tipoAtual.value === "RECEITA" ? "Recebimento" : "Pagamento" }}</label>
+        <p-calendar dateFormat="dd/mm/yy" [showIcon]="true"></p-calendar>
+      </div>
+
+      <div class="col-12 md:col-9 p-fluid">
+        <label>Descrição</label>
+        <input pInputText type="text" name="descricao" ngModel #descricao="ngModel" required minlength="5">
+
+        <app-message [control]="descricao.control" error="required" text="Informe a descrição"></app-message>
+
+        <app-message [control]="descricao.control" error="minlength" text="Mínimo de {{ descricao.errors?.minlength?.requiredLength }} caracteres."></app-message>
+      </div>
+
+      <div class="col-12 md:col-3 p-fluid">
+        <label>Valor</label>
+        <p-inputNumber mode="currency" currency="BRL" placeholder="0,00" [required]="true"></p-inputNumber>
+      </div>
+
+       <div class="col-12 md:col-6 p-fluid">
+        <label>Categoria</label>
+        <p-dropdown [options]="categorias" placeholder="Selecione" [required]="true"></p-dropdown>
+      </div>
+
+       <div class="col-12 md:col-6 p-fluid">
+        <label>Pessoa</label>
+        <p-dropdown [options]="pessoas" [filter]="true" placeholder="Selecione" [required]="true"></p-dropdown>
+      </div>
+
+       <div class="col-12 p-fluid">
+        <label>Observação</label>
+        <textarea pInputTextarea rows="3"></textarea>
+      </div>
+
+      <div class="col-12">
+        <button pButton type="submit" label="Salvar"></button>
+        <button pButton type="button" label="Novo" class="p-button-info"></button>
+        <a href="javascript:;">Voltar para a pesquisa</a>
+      </div>
+    </div>
+
+  </form>
+</div>
