@@ -15,15 +15,12 @@ import { SharedModule } from '../shared/shared.module';
 
 import { LancamentosPesquisaComponent } from './lancamentos-pesquisa/lancamentos-pesquisa.component';
 import { LancamentoCadastroComponent } from './lancamento-cadastro/lancamento-cadastro.component';
-import { LancamentosGridComponent } from './lancamentos-grid/lancamentos-grid.component';
-
 
 
 @NgModule({
   declarations: [
     LancamentosPesquisaComponent,
-    LancamentoCadastroComponent,
-    LancamentosGridComponent
+    LancamentoCadastroComponent
   ],
   imports: [
     CommonModule,
@@ -39,6 +36,7 @@ import { LancamentosGridComponent } from './lancamentos-grid/lancamentos-grid.co
     SelectButtonModule,
     DropdownModule,
     InputNumberModule,
+
   ],
   exports: [
     LancamentosPesquisaComponent,

@@ -1,3 +1,8 @@
+import { ErrorHandlerService } from './../../core/error-handler.service';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { PessoaService } from './../pessoa.service';
+import { NgForm } from '@angular/forms';
+import { Pessoa } from './../../core/model';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +12,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PessoaCadastroComponent implements OnInit {
 
-  constructor() { }
+  pessoa = new Pessoa();
 
-  ngOnInit(): void {
+  constructor(
+    private pessoaService: PessoaService,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService,
+    private errorHandlerService: ErrorHandlerService
+  ) { }
+
+  ngOnInit(): void { }
+
+  salvar(pessoaForm: NgForm) {
+    this.pessoaService.adicionar(this.pessoa)
+    .then(() => {
+      this.messageService.add({severity:'success', detail: "Pessoa cadastrada com sucesso!"});
+
+      pessoaForm.reset();
+      this.pessoa = new Pessoa();
+    })
+    .catch(error => this.errorHandlerService.handle(error));
   }
-
 }

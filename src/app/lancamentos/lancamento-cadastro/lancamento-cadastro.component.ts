@@ -1,4 +1,11 @@
+import { MessageService } from 'primeng/api';
+import { LancamentoService } from './../lancamento.service';
+import { Lancamento } from './../../core/model';
+import { PessoaService } from './../../pessoas/pessoa.service';
+import { ErrorHandlerService } from './../../core/error-handler.service';
+import { CategoriaService } from './../../categorias/categoria.service';
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-lancamento-cadastro',
@@ -12,20 +19,49 @@ export class LancamentoCadastroComponent implements OnInit {
     { label: "Despesa", value: "DESPESA" }
   ];
 
-  categorias = [
-    { label: "Alimentação", value: 1 },
-    { label: "Transporte", value: 2 },
-  ];
+  categorias = [];
+  pessoas = [];
+  lancamento = new Lancamento();
 
-  pessoas = [
-    { label: "João da Silva", value: 1 },
-    { label: "Sebastião Souza", value: 2 },
-    { label: "Maria Gomes", value: 3 },
-  ];
-
-  constructor() { }
+  constructor(
+    private lancamentoService: LancamentoService,
+    private categoriaService: CategoriaService,
+    private pessoaService: PessoaService,
+    private messageService: MessageService,
+    private errorHandlerService: ErrorHandlerService
+  ) { }
 
   ngOnInit(): void {
+    this.carregarCategorias();
+    this.carregarPessoas();
   }
 
+  carregarCategorias() {
+    this.categoriaService.listarTodos()
+    .then((categorias: any) => {
+      this.categorias = categorias.map(c => {
+        return { label: c.nome, value: c.codigo };
+      });
+    })
+    .catch(error => this.errorHandlerService.handle(error));
+  }
+
+  carregarPessoas() {
+    this.pessoaService.listarTodas()
+    .then((pessoas: any) => {
+      this.pessoas = pessoas.map(p => ({ label: p.nome, value: p.codigo }));
+    })
+    .catch(error => this.errorHandlerService.handle(error));
+  }
+
+  salvar(lancamentoForm: NgForm) {
+    this.lancamentoService.adicionar(this.lancamento)
+    .then(() => {
+      this.messageService.add({severity:'success', detail: "Lançamento cadastrado com sucesso!"});
+
+      lancamentoForm.reset();
+      this.lancamento = new Lancamento();
+    })
+    .catch(error => this.errorHandlerService.handle(error));
+  }
 }
