@@ -1,7 +1,11 @@
-import { ErrorHandlerService } from './../../core/error-handler.service';
-import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
-import { PessoaFiltro } from './../pessoa.service';
+import { NgForm } from '@angular/forms';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+
+import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
+
+import { ErrorHandlerService } from './../../core/error-handler.service';
+import { PessoaFiltro } from './../pessoa.service';
 import { PessoaService } from '../pessoa.service';
 
 @Component({
@@ -21,11 +25,12 @@ export class PessoasPesquisaComponent implements OnInit{
     private pessoaService: PessoaService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
-    private errorHandlerService: ErrorHandlerService
+    private errorHandlerService: ErrorHandlerService,
+    private title: Title
   ) {}
 
   ngOnInit(): void {
-    this.pesquisar();
+    this.title.setTitle("Pesquisa de Pessoas");
   }
 
   pesquisar(pagina: number = 0) {

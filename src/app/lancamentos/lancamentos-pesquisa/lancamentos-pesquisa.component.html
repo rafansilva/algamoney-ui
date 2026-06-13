@@ -32,8 +32,7 @@
 
         <p-table [value]="lancamentos"
         [paginator]="true" [rows]="filtro.itensPorPagina"
-        [lazy]="true" [totalRecords]="totalRegistros" (onLazyLoad)="aoMudarPagina($event)"
-        [responsive]="true" #tabela>
+        [lazy]="true" [totalRecords]="totalRegistros" (onLazyLoad)="aoMudarPagina($event)"  #tabela>
         <ng-template pTemplate="emptymessage">
           <tr>
             <td colspan="6">
@@ -74,7 +73,7 @@
                   <span [style.color]="lancamento.tipo === 'DESPESA' ? 'red' : 'blue'">{{ lancamento.valor | number:'1.2-2':'pt-BR'}}</span>
                 </td>
               <td class="col-acoes">
-                <a pButton icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top"></a>
+                <a pButton icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top" [routerLink]="['/lancamentos', lancamento.codigo]"></a>
                 <button pButton icon="pi pi-trash" pTooltip="Excluir" tooltipPosition="top" (click)="confirmarExclusao(lancamento)"></button>
               </td>
           </tr>
@@ -85,6 +84,6 @@
   </div>
 
   <div class="col-12">
-    <button pButton type="submit" label="Novo lançamento"></button>
+    <button pButton type="submit" label="Novo lançamento" routerLink="/lancamentos/novo"></button>
   </div>
 </div>

@@ -19,7 +19,7 @@
 
   <div class="grid">
     <div class="col-12">
-      <p-table [value]="pessoas" [paginator]="true" [rows]="filtro.itensPorPagina" [responsive]="true"
+      <p-table [value]="pessoas" [paginator]="true" [rows]="filtro.itensPorPagina"
       [lazy]="true" [totalRecords]="totalRegistros" (onLazyLoad)="aoMudarPagina($event)"  #tabela>
         <ng-template pTemplate="emptymessage">
           <tr>
@@ -56,7 +56,7 @@
                 <a  style="cursor: pointer;" (click)="alternaStatus(pessoa)">{{pessoa.ativo === true ? 'Ativo' : "Inativo"}}</a>
               </td>
               <td class="col-acoes">
-                <a pButton icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top"></a>
+                <a pButton icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top" [routerLink]="['/pessoas', pessoa.codigo]"></a>
                 <button pButton icon="pi pi-trash" pTooltip="Excluir" tooltipPosition="top" (click)="confirmarExclusao(pessoa)"></button>
               </td>
           </tr>
@@ -67,6 +67,6 @@
   </div>
 
   <div class="col-12">
-    <button pButton type="submit" label="Nova Pessoa"></button>
+    <button pButton type="submit" label="Nova Pessoa" routerLink="/pessoas/nova"></button>
   </div>
 </div>

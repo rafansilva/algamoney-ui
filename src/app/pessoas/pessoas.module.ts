@@ -14,6 +14,8 @@ import { SharedModule } from '../shared/shared.module';
 
 import { PessoasPesquisaComponent } from './pessoas-pesquisa/pessoas-pesquisa.component';
 import { PessoaCadastroComponent } from './pessoa-cadastro/pessoa-cadastro.component';
+import { PessoasRoutingModule } from './pessoas-routing.module';
+
 
 
 @NgModule({
@@ -24,20 +26,16 @@ import { PessoaCadastroComponent } from './pessoa-cadastro/pessoa-cadastro.compo
   imports: [
     CommonModule,
     FormsModule,
-
     SharedModule,
-
     InputTextModule,
     ButtonModule,
     TableModule,
     CalendarModule,
     SelectButtonModule,
     DropdownModule,
-    InputMaskModule
-  ],
-  exports: [
-    PessoasPesquisaComponent,
-    PessoaCadastroComponent,
-  ]
+    InputMaskModule,
+    PessoasRoutingModule
+],
+  exports: []
 })
 export class PessoasModule { }

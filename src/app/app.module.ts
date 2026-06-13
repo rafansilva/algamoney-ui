@@ -1,4 +1,3 @@
-import { PessoaService } from './pessoas/pessoa.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -13,10 +12,6 @@ import { CoreModule } from './core/core.module';
 
 import { LancamentosModule } from './lancamentos/lancamentos.module';
 import { PessoasModule } from './pessoas/pessoas.module';
-import { LancamentoService } from './lancamentos/lancamento.service';
-
-import { MessageService } from 'primeng/api';
-import {ConfirmationService} from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -26,16 +21,15 @@ import {ConfirmationService} from 'primeng/api';
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
-    AppRoutingModule,
-
     CoreModule,
     HttpClientModule,
 
     LancamentosModule,
     PessoasModule,
 
+    AppRoutingModule,
   ],
-  providers: [LancamentoService, PessoaService,  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

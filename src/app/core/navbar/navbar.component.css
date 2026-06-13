@@ -46,6 +46,10 @@
   color: #fff;
 }
 
+.navbar-menuitem.ativo {
+  background-color: #494541;
+}
+
 .navbar-voltar {
   color: #fff;
   text-decoration: none;
@@ -63,6 +67,6 @@
 
 .navbar-voltar:hover {
   cursor: pointer;
-  background-color: #a89e97;
+  background-color: #494541;
   width: 210px;
 }
