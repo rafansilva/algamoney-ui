@@ -1,8 +1,10 @@
-import { Lancamento } from './../core/model';
 import { DatePipe } from "@angular/common";
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { firstValueFrom, lastValueFrom } from "rxjs";
+import { lastValueFrom } from "rxjs";
+import { Lancamento } from './../core/model';
+import { environment } from './../../environments/environment';
+
 
 export class LancamentoFiltro {
 
@@ -13,11 +15,10 @@ export class LancamentoFiltro {
   itensPorPagina: number = 5;
 }
 
-
 @Injectable()
 export class LancamentoService {
 
-  private lancamentoEndpoint = "http://localhost:8080/lancamentos";
+  private lancamentoEndpoint = environment.apiUrl + "/lancamentos";
 
   constructor(
     private http: HttpClient,
@@ -25,7 +26,6 @@ export class LancamentoService {
   ) {}
 
   pesquisar(filtro: LancamentoFiltro): Promise<any> {
-    const headers = new HttpHeaders().append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
     let params = new HttpParams();
 
     params = params.set("page", filtro.pagina);
@@ -43,7 +43,7 @@ export class LancamentoService {
       params = params.set("dataVencimentoAte", this.datePipe.transform(filtro.dataVencimentoFim, "yyyy-MM-dd")!);
     }
 
-    return lastValueFrom(this.http.get(`${this.lancamentoEndpoint}?resumo`, { headers, params }))
+    return lastValueFrom(this.http.get(`${this.lancamentoEndpoint}?resumo`, { params }))
     .then((response : any) => {
       const lancamentos = response.content;
       const resultado = {
@@ -56,29 +56,19 @@ export class LancamentoService {
   }
 
   adicionar(lancamento: Lancamento): Promise<Lancamento> {
-    const headers = new HttpHeaders()
-    .append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==')
-    .append('Content-Type', 'application/json');
-
-    return lastValueFrom(this.http.post<Lancamento>(`${this.lancamentoEndpoint}`, lancamento, {headers}))
+    return lastValueFrom(this.http.post<Lancamento>(`${this.lancamentoEndpoint}`, lancamento))
     .then((response: any) => {
       return response;
     });
   }
 
   excluir(codigo: number): Promise<any> {
-    const headers = new HttpHeaders().append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
-
-    return lastValueFrom(this.http.delete(`${this.lancamentoEndpoint}/${codigo}`, { headers }))
+    return lastValueFrom(this.http.delete(`${this.lancamentoEndpoint}/${codigo}`))
     .then(() => null);
   }
 
   atualizar(lancamento: Lancamento): Promise<Lancamento> {
-    const headers = new HttpHeaders()
-    .append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==')
-    .append('Content-Type', 'application/json');
-
-    return lastValueFrom(this.http.put<Lancamento>(`${this.lancamentoEndpoint}/atualizar/${lancamento.codigo}`, lancamento, { headers }))
+    return lastValueFrom(this.http.put<Lancamento>(`${this.lancamentoEndpoint}/atualizar/${lancamento.codigo}`, lancamento))
     .then((response: any) => {
       this.converterStringsParaDatas([response]);
 
@@ -87,11 +77,7 @@ export class LancamentoService {
   }
 
   buscarPorCodigo(codigo: number): Promise<Lancamento> {
-    const headers = new HttpHeaders()
-    .append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==')
-    .append('Content-Type', 'application/json');
-
-    return lastValueFrom(this.http.get(`${this.lancamentoEndpoint}/${codigo}`, { headers }))
+    return lastValueFrom(this.http.get(`${this.lancamentoEndpoint}/${codigo}`))
     .then((response: any) => {
       this.converterStringsParaDatas([response]);
 

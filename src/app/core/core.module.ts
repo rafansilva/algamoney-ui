@@ -17,6 +17,9 @@ import { PessoaService } from './../pessoas/pessoa.service';
 import { LancamentoService } from './../lancamentos/lancamento.service';
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component';
 import { CategoriaService } from './../categorias/categoria.service';
+import { SegurancaModule } from '../seguranca/seguranca.module';
+import { AuthService } from '../seguranca/auth.service';
+import { NaoAutorizadoComponent } from './nao-autorizado.component';
 
 registerLocaleData(localePt, "pt-BR");
 
@@ -25,7 +28,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 }
 
 @NgModule({
-  declarations: [NavbarComponent, PaginaNaoEncontradaComponent],
+  declarations: [NavbarComponent, PaginaNaoEncontradaComponent, NaoAutorizadoComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -40,6 +43,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 
     ToastModule,
     ConfirmDialogModule,
+    SegurancaModule,
   ],
   providers: [
     DatePipe,
@@ -50,9 +54,10 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     LancamentoService,
     PessoaService,
     CategoriaService,
-
     ConfirmationService,
     Title,
+
+    AuthService,
     {provide: LOCALE_ID, useValue: 'pt-BR'},
   ],
   exports: [NavbarComponent, ConfirmDialogModule, ToastModule]

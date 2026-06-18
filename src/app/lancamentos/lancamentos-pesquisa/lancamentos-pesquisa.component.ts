@@ -3,6 +3,7 @@ import { ErrorHandlerService } from './../../core/error-handler.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { LancamentoFiltro, LancamentoService } from '../lancamento.service';
 import { LazyLoadEvent, MessageService, ConfirmationService } from 'primeng/api';
+import { AuthService } from 'src/app/seguranca/auth.service';
 
 @Component({
   selector: 'app-lancamentos-pesquisa',
@@ -22,7 +23,8 @@ export class LancamentosPesquisaComponent implements OnInit{
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private errorHandlerService: ErrorHandlerService,
-    private title: Title
+    private title: Title,
+    private auth: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -61,5 +63,9 @@ export class LancamentosPesquisaComponent implements OnInit{
       this.messageService.add({severity:'success', detail:'Lançamento excluido com sucesso!'});
     })
     .catch(error => this.errorHandlerService.handle(error));
+  }
+
+   naoTemPermissao(permissao: string) {
+    return !this.auth.temPermissao(permissao);
   }
 }

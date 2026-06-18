@@ -43,6 +43,7 @@
 }
 
 .navbar-menuitem a:hover {
+  cursor: pointer;
   color: #fff;
 }
 

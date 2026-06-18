@@ -12,9 +12,7 @@ export class CategoriaService {
   constructor(private http: HttpClient) { }
 
   listarTodos(): Promise<any> {
-    const headers = new HttpHeaders({Authorization: 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=='});
-
-    return lastValueFrom(this.http.get(`${this.categoriasEndpoint}`, { headers }))
+    return lastValueFrom(this.http.get(`${this.categoriasEndpoint}`))
     .then((response: any) => {
       return response;
     })
