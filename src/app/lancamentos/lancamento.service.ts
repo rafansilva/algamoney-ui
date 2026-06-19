@@ -15,7 +15,9 @@ export class LancamentoFiltro {
   itensPorPagina: number = 5;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class LancamentoService {
 
   private lancamentoEndpoint = environment.apiUrl + "/lancamentos";

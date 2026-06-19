@@ -33,6 +33,10 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     CommonModule,
     RouterModule,
 
+    ToastModule,
+    ConfirmDialogModule,
+    SegurancaModule,
+
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -40,23 +44,14 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         deps: [HttpClient]
       }
     }),
-
-    ToastModule,
-    ConfirmDialogModule,
-    SegurancaModule,
   ],
   providers: [
     DatePipe,
     TranslateService,
-
     ErrorHandlerService,
     MessageService,
-    LancamentoService,
-    PessoaService,
-    CategoriaService,
     ConfirmationService,
     Title,
-
     AuthService,
     {provide: LOCALE_ID, useValue: 'pt-BR'},
   ],

@@ -24,18 +24,18 @@ export function tokenGetter(): string {
   imports: [
     CommonModule,
     FormsModule,
+    InputTextModule,
+    ButtonModule,
 
     JwtModule.forRoot({
       config: {
         tokenGetter,
         allowedDomains: environment.tokenAllowedDomains,
-        disallowedRoutes: ["http://localhost:8080/oauth/token"]
+        disallowedRoutes: environment.tokenDisallowedRoutes
       }
     }),
 
     SegurancaRoutingModule,
-    InputTextModule,
-    ButtonModule,
 ],
 providers: [
   JwtHelperService,

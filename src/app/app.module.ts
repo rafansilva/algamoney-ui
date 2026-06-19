@@ -24,9 +24,6 @@ import { PessoasModule } from './pessoas/pessoas.module';
     CoreModule,
     HttpClientModule,
 
-    LancamentosModule,
-    PessoasModule,
-
     AppRoutingModule,
   ],
   providers: [],

@@ -14,7 +14,9 @@ export class PessoaFiltro {
 }
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class PessoaService {
 
   private pessoaEndpoint: string = environment.apiUrl + "/pessoas";
