@@ -22,7 +22,7 @@ export class LoginFormComponent implements OnInit {
   login(email: string, senha: string) {
     this.authService.login(email, senha)
     .then(() => {
-      this.router.navigate(["/lancamentos"]);
+      this.router.navigate(["/dashboard"]);
     })
     .catch((response: any) => {
       this.errorHandlerService.handle(response);
