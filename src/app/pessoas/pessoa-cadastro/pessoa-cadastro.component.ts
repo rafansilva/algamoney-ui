@@ -3,8 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ErrorHandlerService } from './../../core/error-handler.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { PessoaService } from './../pessoa.service';
-import { NgForm } from '@angular/forms';
-import { Pessoa } from './../../core/model';
+import { NgForm, FormControl } from '@angular/forms';
+import { Pessoa, Contato } from './../../core/model';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -15,6 +15,7 @@ import { Component, OnInit } from '@angular/core';
 export class PessoaCadastroComponent implements OnInit {
 
   pessoa = new Pessoa();
+
 
   constructor(
     private pessoaService: PessoaService,
@@ -88,4 +89,5 @@ export class PessoaCadastroComponent implements OnInit {
   atualizarTituloEdicao() {
     this.title.setTitle(`Edição da pessoa: ${this.pessoa.nome}`);
   }
+
 }
