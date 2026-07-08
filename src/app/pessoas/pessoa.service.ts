@@ -1,4 +1,4 @@
-import { Pessoa } from './../core/model';
+import { Cidade, Estado, Pessoa } from './../core/model';
 import { HttpParams } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -20,6 +20,8 @@ export class PessoaFiltro {
 export class PessoaService {
 
   private pessoaEndpoint: string = environment.apiUrl + "/pessoas";
+  private cidadesEndpoint: string = environment.apiUrl + "/cidades";
+  private estadosEndpoint: string = environment.apiUrl + "/estados";
 
   constructor(private http: HttpClient) {}
 
@@ -81,6 +83,22 @@ export class PessoaService {
 
   buscarPorCodigo(codigo: number): Promise<Pessoa> {
     return lastValueFrom(this.http.get<Pessoa>(`${this.pessoaEndpoint}/${codigo}`))
+    .then((response: any) => {
+      return response;
+    });
+  }
+
+  listarEstados(): Promise<Estado[]> {
+    return lastValueFrom(this.http.get<Estado[]>(`${this.estadosEndpoint}`))
+    .then((response: any) => {
+      return response;
+    });
+  }
+
+  pesquisarCidades(estadoCodigo: number): Promise<Cidade[]> {
+    let params = new HttpParams();
+    params = params.set("estado", estadoCodigo);
+    return lastValueFrom(this.http.get<Cidade[]>(`${this.cidadesEndpoint}`, { params }))
     .then((response: any) => {
       return response;
     });

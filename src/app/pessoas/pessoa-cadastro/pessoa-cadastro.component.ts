@@ -4,7 +4,7 @@ import { ErrorHandlerService } from './../../core/error-handler.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { PessoaService } from './../pessoa.service';
 import { NgForm, FormControl } from '@angular/forms';
-import { Pessoa, Contato } from './../../core/model';
+import { Pessoa, Contato, Estado, Cidade } from './../../core/model';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -15,6 +15,9 @@ import { Component, OnInit } from '@angular/core';
 export class PessoaCadastroComponent implements OnInit {
 
   pessoa = new Pessoa();
+  estados: any[] = [];
+  cidades: any[] = [];
+  estadoSelecionado: number;
 
 
   constructor(
@@ -30,6 +33,8 @@ export class PessoaCadastroComponent implements OnInit {
     this.title.setTitle("Nova Pessoa");
     const codigo: number = this.activatedRoute.snapshot.params["codigo"];
 
+    this.carregaEstados();
+
     if (codigo) {
       this.carregaPessoa(codigo);
     }
@@ -43,6 +48,12 @@ export class PessoaCadastroComponent implements OnInit {
     this.pessoaService.buscarPorCodigo(codigo)
     .then(response => {
       this.pessoa = response;
+
+      this.estadoSelecionado = this.pessoa.endereco.cidade ? this.pessoa.endereco.cidade.estado.codigo : null;
+      if (this.estadoSelecionado) {
+        this.carregarCidades();
+      }
+
       this.atualizarTituloEdicao();
     })
   }
@@ -88,6 +99,28 @@ export class PessoaCadastroComponent implements OnInit {
 
   atualizarTituloEdicao() {
     this.title.setTitle(`Edição da pessoa: ${this.pessoa.nome}`);
+  }
+
+  carregaEstados() {
+    this.pessoaService.listarEstados()
+    .then((response: any) => {
+      this.estados = response.map((estado: Estado) => {
+        return { label: estado.nome, value: estado.codigo }
+      });
+    })
+    .catch(error => this.errorHandlerService.handle(error));
+  }
+
+  carregarCidades() {
+    this.pessoaService.pesquisarCidades(this.estadoSelecionado)
+      .then((response: any) => {
+        this.cidades = response.map((cidade: Cidade) => {
+          return { label: cidade.nome, value: cidade.codigo }
+        });
+        if (this.estadoSelecionado !== this.pessoa.endereco.cidade.estado.codigo)
+          this.pessoa.endereco.cidade.codigo = undefined;
+      })
+      .catch(error => this.errorHandlerService.handle(error));   
   }
 
 }
