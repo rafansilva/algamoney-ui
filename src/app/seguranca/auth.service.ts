@@ -11,7 +11,6 @@ import * as CryptoJS from 'crypto-js';
 })
 export class AuthService {
 
-  tokenRevokeUrl = environment.apiUrl + "/token/revoke";
   oauthTokenUrl = environment.apiUrl + "/oauth2/token";
   oauthAuthorizeUrl = environment.apiUrl + "/oauth2/authorize";
   jwtPayload: any;
@@ -54,6 +53,12 @@ export class AuthService {
     ]
 
     window.location.href = this.oauthAuthorizeUrl + '?' + params.join('&');
+  }
+
+  logout() {
+    this.limparAccessToken();
+    localStorage.clear();
+    window.location.href = environment.apiUrl + "/logout?returnTo=" + environment.logoutRedirectUrl;
   }
 
   obterNovoAccessTokenComCode(code: string, state: string): Promise<void> {
@@ -138,13 +143,6 @@ export class AuthService {
   limparAccessToken() {
     localStorage.removeItem("token");
     this.jwtPayload = null;
-  }
-
-  logout() {
-    return lastValueFrom(this.http.delete(this.tokenRevokeUrl, { withCredentials: true }))
-    .then(() => {
-      this.limparAccessToken();
-    });
   }
 
   private armazenarToken(token: string) {
