@@ -4,14 +4,16 @@ import { HttpHeaders } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from './../../environments/environment';
+import * as CryptoJS from 'crypto-js';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  tokenRevokeUrl = environment.apiUrl + "/token/revoke"
-  oauthTokenUrl = environment.apiUrl + "/oauth/token";
+  tokenRevokeUrl = environment.apiUrl + "/token/revoke";
+  oauthTokenUrl = environment.apiUrl + "/oauth2/token";
+  oauthAuthorizeUrl = environment.apiUrl + "/oauth2/authorize";
   jwtPayload: any;
 
   constructor(
@@ -21,26 +23,37 @@ export class AuthService {
     this.carregarToken();
    }
 
-  login(username: string, senha: string): Promise<void> {
-    const headers = new HttpHeaders()
-    .append("Content-type", "application/x-www-form-urlencoded")
-    .append("Authorization", "Basic YW5ndWxhcjphbmd1bGFy");
+  login() {
+    const state = this.gerarStringAleatoria(40);
+    const codeVerifier = this.gerarStringAleatoria(128);
 
-    const body = `username=${username}&password=${senha}&grant_type=password`;
+    localStorage.setItem("state", state);
+    localStorage.setItem("codeVerifier", codeVerifier);
 
-    return lastValueFrom(this.http.post(this.oauthTokenUrl, body, { headers, withCredentials: true }))
-    .then((response: any) => {
-      this.armazenarToken(response.access_token);
-    })
-    .catch((response: any) => {
-      if (response.status === 400) {
-        if (response.error.error === "invalid_grant") {
-          return Promise.reject("Usuário ou senha inválida!");
-        }
-      }
+    const challengeMethod = "S256";
+    const codeChallenge = CryptoJS.SHA256(codeVerifier)
+      .toString(CryptoJS.enc.Base64)
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=+$/, "");
 
-      return Promise.reject(response);
-    });
+    const redirectUri = encodeURIComponent(environment.oauthCallbackUrl);
+
+    const clientId = "angular";
+    const scope = "read write";
+    const responseType = "code";
+
+    const params = [
+      'response_type=' + responseType,
+      'client_id=' + clientId,
+      'scope=' + scope,
+      'code_challenge=' + codeChallenge,
+      'code_challenge_method=' + challengeMethod,
+      'state=' + state,
+      'redirect_uri=' + redirectUri
+    ]
+
+    window.location.href = this.oauthAuthorizeUrl + '?' + params.join('&');
   }
 
   obterNovoAccessToken(): Promise<void> {
@@ -107,4 +120,14 @@ export class AuthService {
       this.armazenarToken(token);
     }
   }
+
+  private gerarStringAleatoria(tamanho: number) {
+    let resultado = '';
+    //Chars que são URL safe
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for (let i = 0; i < tamanho; i++) {
+      resultado += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return resultado;
+}
 }

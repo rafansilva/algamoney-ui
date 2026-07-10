@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/seguranca/auth.service';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Injectable } from '@angular/core';
@@ -11,7 +12,7 @@ export class ErrorHandlerService {
 
   constructor(
     private messageService: MessageService,
-    private router: Router
+    private authService: AuthService
   ) { }
 
   handle(errorResponse: any) {
@@ -25,7 +26,7 @@ export class ErrorHandlerService {
       console.log("errorResponse ", errorResponse);
 
       msg = "Sua sessão expirou";
-      this.router.navigate(["/login"]);
+      this.authService.login();
 
     } else if (errorResponse instanceof HttpErrorResponse
       && errorResponse.status >= 400 && errorResponse.status <= 499

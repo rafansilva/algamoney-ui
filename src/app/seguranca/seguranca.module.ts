@@ -12,15 +12,12 @@ import { MoneyHttpInterceptor } from './money-http-interceptor';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from "primeng/inputtext";
 
-import { LoginFormComponent } from './login-form/login-form.component';
-
-
 export function tokenGetter(): string {
   return localStorage.getItem("token");
 }
 
 @NgModule({
-  declarations: [LoginFormComponent],
+  declarations: [],
   imports: [
     CommonModule,
     FormsModule,
