@@ -77,7 +77,6 @@ export class DashboardComponent implements OnInit {
       const totaisReceita = this.totaisPorCadaDiaMes(
         dados.filter(dado => dado.tipoLancamento === 'RECEITA'), diasDoMes);
 
-      console.log(totaisReceita);
       const totaisDespesas = this.totaisPorCadaDiaMes(
         dados.filter(dado => dado.tipoLancamento === 'DESPESA'), diasDoMes);
 

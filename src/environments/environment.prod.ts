@@ -3,5 +3,5 @@ export const environment = {
   apiUrl: '',
   tokenAllowedDomains: [ /algamoney-api.com/ ],
   tokenDisallowedRoutes: [ /\/oauth2\/token/ ],
-  oauthCallbackUrl: "https://oidcdebugger.com/debug"
+  oauthCallbackUrl: "http://local-algamoney.com:4200/authorized"
 };

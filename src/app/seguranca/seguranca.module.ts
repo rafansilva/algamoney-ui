@@ -11,13 +11,16 @@ import { MoneyHttpInterceptor } from './money-http-interceptor';
 
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from "primeng/inputtext";
+import { AuthorizedComponent } from './authorized/authorized.component';
 
 export function tokenGetter(): string {
   return localStorage.getItem("token");
 }
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    AuthorizedComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,
